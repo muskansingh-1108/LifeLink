@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Blood - LifeLink</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .request-container {
+            display: flex;
+            min-height: 100vh;
+            background: var(--light-gray);
+        }
+
+        .request-illustration {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .request-illustration::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M30,10L50,30L70,10L90,30L70,50L90,70L70,90L50,70L30,90L10,70L30,50L10,30L30,10Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.3;
+            animation: float 25s linear infinite;
+        }
+
+        .request-illustration img {
+            max-width: 80%;
+            height: auto;
+            z-index: 1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .request-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .request-card {
+            background: #ffffff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 3rem;
+            width: 100%;
+            max-width: 520px;
+            position: relative;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .request-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .request-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .request-header h1 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .request-header p {
+            color: var(--gray-color);
+            margin-bottom: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-color);
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: #f9f9f9;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.1);
+            background-color: #ffffff;
+        }
+
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+        }
+
+        .input-icon input,
+        .input-icon select {
+            padding-left: 45px;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .urgency-badges {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .urgency-option {
+            padding: 0.45rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid #e0e0e0;
+            font-size: 0.85rem;
+            cursor: pointer;
+            color: var(--gray-color);
+            background: #ffffff;
+            transition: var(--transition);
+        }
+
+        .urgency-option.selected {
+            background: rgba(255, 59, 48, 0.08);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .request-footer-text {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+            margin-top: 0.5rem;
+            line-height: 1.5;
+        }
+
+        .btn-request {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .error-message {
+            color: var(--danger-color);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            display: none;
+            line-height: 1.4;
+        }
+
+        .form-group.error .form-control,
+        .form-group.error select {
+            border-color: var(--danger-color);
+            background-color: #fff9f9;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .form-group.success .form-control,
+        .form-group.success select {
+            border-color: var(--success-color);
+            background-color: #f9fff9;
+        }
+
+        .alert {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .alert.success {
+            background: #e6f7ec;
+            color: #1b7a34;
+            border: 1px solid #b5e2c4;
+        }
+
+        .alert.error {
+            background: #fdecea;
+            color: #b3261e;
+            border: 1px solid #f5c6c3;
+        }
+
+        @media (max-width: 992px) {
+            .request-illustration {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 1.25rem;
+            }
+
+            .request-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="request-container">
+        <div class="request-illustration">
+            <img src="images/blood-donation-illustration.svg" alt="Blood Donation Illustration">
+        </div>
+        <div class="request-content">
+            <div class="request-card">
+                <div class="request-header">
+                    <h1>Request Blood</h1>
+                    <p>Submit your request and we will help connect you with matching donors.</p>
+                </div>
+
+                <div class="alert success" id="request-success">Your request has been submitted successfully. We will contact you soon.</div>
+                <div class="alert error" id="request-error">There was a problem submitting your request. Please try again.</div>
+
+                <form id="requestForm" novalidate>
+                    <div class="form-group">
+                        <label for="patientName">Patient Name</label>
+                        <div class="input-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="patientName" class="form-control" placeholder="Enter patient full name" required>
+                        </div>
+                        <div class="error-message" id="patientName-error">Patient name is required</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bloodType">Required Blood Type</label>
+                            <div class="input-icon">
+                                <i class="fas fa-tint"></i>
+                                <select id="bloodType" class="form-control" required>
+                                    <option value="" disabled selected>Select blood type</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                            <div class="error-message" id="bloodType-error">Please select a blood type</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="units">Units Needed</label>
+                            <div class="input-icon">
+                                <i class="fas fa-syringe"></i>
+                                <input type="number" id="units" class="form-control" min="1" max="20" placeholder="e.g. 2" required>
+                            </div>
+                            <div class="error-message" id="units-error">Please enter units between 1 and 20</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Urgency</label>
+                        <div class="urgency-badges" id="urgencyGroup">
+                            <span class="urgency-option" data-value="Normal">Normal (within 3 days)</span>
+                            <span class="urgency-option" data-value="Urgent">Urgent (24 hours)</span>
+                            <span class="urgency-option" data-value="Critical">Critical (immediately)</span>
+                        </div>
+                        <input type="hidden" id="urgency" value="">
+                        <div class="error-message" id="urgency-error">Please select the urgency level</div>
+                        <div class="request-footer-text">We prioritize requests based on urgency while ensuring donor and patient safety.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hospital">Hospital Name</label>
+                        <div class="input-icon">
+                            <i class="fas fa-hospital"></i>
+                            <input type="text" id="hospital" class="form-control" placeholder="Enter hospital name" required>
+                        </div>
+                        <div class="error-message" id="hospital-error">Hospital name is required</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <div class="input-icon">
+                                <i class="fas fa-city"></i>
+                                <input type="text" id="city" class="form-control" placeholder="Enter city" required>
+                            </div>
+                            <div class="error-message" id="city-error">City is required</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="neededBy">Needed By (Date)</label>
+                            <div class="input-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                                <input type="date" id="neededBy" class="form-control" required>
+                            </div>
+                            <div class="error-message" id="neededBy-error">Please select a valid date (today or later)</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactNumber">Contact Number</label>
+                        <div class="input-icon">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="contactNumber" class="form-control" placeholder="Enter contact number" required>
+                        </div>
+                        <div class="error-message" id="contactNumber-error">Please enter a valid phone number</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="additionalInfo">Additional Information (optional)</label>
+                        <textarea id="additionalInfo" class="form-control" placeholder="Any additional details that can help donors (e.g. condition, blood bank, time)"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-request">Submit Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+if (!localStorage.getItem("token")) {
+    alert("Please login first");
+    window.location.href = "login.html";
+}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const requestForm = document.getElementById('requestForm');
+            const patientNameInput = document.getElementById('patientName');
+            const bloodTypeInput = document.getElementById('bloodType');
+            const unitsInput = document.getElementById('units');
+            const urgencyHidden = document.getElementById('urgency');
+            const urgencyOptions = document.querySelectorAll('.urgency-option');
+            const hospitalInput = document.getElementById('hospital');
+            const cityInput = document.getElementById('city');
+            const neededByInput = document.getElementById('neededBy');
+            const contactNumberInput = document.getElementById('contactNumber');
+            const successAlert = document.getElementById('request-success');
+            const errorAlert = document.getElementById('request-error');
+
+            // Helper validation functions
+            function validateName(value) {
+                return value.trim().length >= 2;
+            }
+
+            function validatePhone(value) {
+                const re = /^[+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{6,}$/;
+                return re.test(value.trim());
+            }
+
+            function validateUnits(value) {
+                const num = Number(value);
+                return Number.isInteger(num) && num >= 1 && num <= 20;
+            }
+
+            function validateDate(value) {
+                if (!value) return false;
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const selected = new Date(value);
+                return selected >= today;
+            }
+
+            function showError(input, message) {
+                const formGroup = input.closest('.form-group');
+                if (!formGroup) return;
+                const errorElement = formGroup.querySelector('.error-message');
+                if (errorElement) {
+                    formGroup.classList.add('error');
+                    errorElement.textContent = message;
+                    errorElement.style.display = 'block';
+                }
+            }
+
+            function clearError(input) {
+                const formGroup = input.closest('.form-group');
+                if (!formGroup) return;
+                formGroup.classList.remove('error');
+                const errorElement = formGroup.querySelector('.error-message');
+                if (errorElement) {
+                    errorElement.style.display = 'none';
+                }
+            }
+
+            function setUrgency(value) {
+                urgencyHidden.value = value;
+                urgencyOptions.forEach(opt => {
+                    if (opt.dataset.value === value) {
+                        opt.classList.add('selected');
+                    } else {
+                        opt.classList.remove('selected');
+                    }
+                });
+            }
+
+            // Urgency selection
+            urgencyOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    setUrgency(this.dataset.value);
+                    // Clear urgency error if any
+                    const urgencyGroup = document.getElementById('urgencyGroup').closest('.form-group');
+                    urgencyGroup.classList.remove('error');
+                    const errorElement = urgencyGroup.querySelector('.error-message');
+                    if (errorElement) errorElement.style.display = 'none';
+                });
+            });
+
+            // Real-time validation
+            patientNameInput.addEventListener('input', function() {
+                if (!validateName(this.value)) {
+                    showError(this, 'Patient name must be at least 2 characters');
+                } else {
+                    clearError(this);
+                }
+            });
+
+            bloodTypeInput.addEventListener('change', function() {
+                if (!this.value) {
+                    showError(this, 'Please select a blood type');
+                } else {
+                    clearError(this);
+                }
+            });
+
+            unitsInput.addEventListener('input', function() {
+                if (!validateUnits(this.value)) {
+                    showError(this, 'Please enter units between 1 and 20');
+                } else {
+                    clearError(this);
+                }
+            });
+
+            hospitalInput.addEventListener('input', function() {
+                if (!validateName(this.value)) {
+                    showError(this, 'Hospital name must be at least 2 characters');
+                } else {
+                    clearError(this);
+                }
+            });
+
+            cityInput.addEventListener('input', function() {
+                if (!validateName(this.value)) {
+                    showError(this, 'City must be at least 2 characters');
+                } else {
+                    clearError(this);
+                }
+            });
+
+            neededByInput.addEventListener('change', function() {
+                if (!validateDate(this.value)) {
+                    showError(this, 'Please select a valid date (today or later)');
+                } else {
+                    clearError(this);
+                }
+            });
+
+            contactNumberInput.addEventListener('input', function() {
+                if (!validatePhone(this.value)) {
+                    showError(this, 'Please enter a valid phone number');
+                } else {
+                    clearError(this);
+                }
+            });
+
+            // Form submit
+            requestForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                let isValid = true;
+
+                successAlert.style.display = 'none';
+                errorAlert.style.display = 'none';
+
+                // Patient name
+                if (!validateName(patientNameInput.value)) {
+                    showError(patientNameInput, 'Patient name must be at least 2 characters');
+                    isValid = false;
+                } else {
+                    clearError(patientNameInput);
+                }
+
+                // Blood type
+                if (!bloodTypeInput.value) {
+                    showError(bloodTypeInput, 'Please select a blood type');
+                    isValid = false;
+                } else {
+                    clearError(bloodTypeInput);
+                }
+
+                // Units
+                if (!validateUnits(unitsInput.value)) {
+                    showError(unitsInput, 'Please enter units between 1 and 20');
+                    isValid = false;
+                } else {
+                    clearError(unitsInput);
+                }
+
+                // Urgency
+                if (!urgencyHidden.value) {
+                    const urgencyGroup = document.getElementById('urgencyGroup').closest('.form-group');
+                    urgencyGroup.classList.add('error');
+                    const errorElement = urgencyGroup.querySelector('.error-message');
+                    if (errorElement) errorElement.style.display = 'block';
+                    isValid = false;
+                }
+
+                // Hospital
+                if (!validateName(hospitalInput.value)) {
+                    showError(hospitalInput, 'Hospital name must be at least 2 characters');
+                    isValid = false;
+                } else {
+                    clearError(hospitalInput);
+                }
+
+                // City
+                if (!validateName(cityInput.value)) {
+                    showError(cityInput, 'City must be at least 2 characters');
+                    isValid = false;
+                } else {
+                    clearError(cityInput);
+                }
+
+                // Date
+                if (!validateDate(neededByInput.value)) {
+                    showError(neededByInput, 'Please select a valid date (today or later)');
+                    isValid = false;
+                } else {
+                    clearError(neededByInput);
+                }
+
+                // Contact number
+                if (!validatePhone(contactNumberInput.value)) {
+                    showError(contactNumberInput, 'Please enter a valid phone number');
+                    isValid = false;
+                } else {
+                    clearError(contactNumberInput);
+                }
+
+              if (isValid) {
+                const token = localStorage.getItem("token");
+                fetch("http://localhost:5000/api/requests", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": token
+                    },
+                    body: JSON.stringify({
+                        bloodType: bloodTypeInput.value,
+                        hospital: hospitalInput.value.trim(),
+                        location: {
+                            lat: 25.6,
+                            lng: 85.1
+                        }
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    successAlert.style.display = 'block';
+                    requestForm.reset();
+                    urgencyHidden.value = '';
+                    urgencyOptions.forEach(opt => opt.classList.remove('selected'));
+                    console.log(data);
+                })
+                .catch(err => {
+                    console.log(err);
+                    errorAlert.style.display = 'block';
+                });
+            
+            }
+
+            });
+
+            // Set min date for neededBy to today
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            neededByInput.min = `${yyyy}-${mm}-${dd}`;
+        });
+    </script>
+</body>
+</html>

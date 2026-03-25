@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LifeLink - Connecting blood donors with those in need">
+    <title>LifeLink - Blood Donation Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">LifeLink</a>
+            <button class="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links">
+                <a href="#home" class="active">Home</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="login.html" class="btn btn-sm btn-outline">Login</a>
+                <a href="register.html" class="btn btn-sm btn-primary">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="home">
+        <div class="container">
+            <div class="hero-content animate-fade-in" style="opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease;">
+                <h1>Be Life’s Silent Hero.</h1>
+                <p>Be life’s silent hero by donating blood and giving hope to those who need it most.</p>
+                <div class="button-row">
+                    <a href="register.html" class="btn btn-primary">Become a Donor</a>
+                    <a href="request-blood.html" class="btn btn-outline">Request Blood</a>
+                </div>
+            </div>
+            <div class="hero-image animate-fade-in" style="opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;">
+                <img src="images/blood-donation-illustration.svg" alt="Blood donation illustration" aria-hidden="true">
+            </div>
+        </div>
+    </header>
+
+    <!-- How It Works -->
+    <section class="section section-rbc" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="how-animation">
+                <svg class="how-flow" width="520" height="120" viewBox="0 0 520 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <!-- Flow line -->
+                    <defs>
+                        <linearGradient id="howLine" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#ff6b6b"/>
+                            <stop offset="100%" stop-color="#e31b23"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M20 60 H130 260 390 500" fill="none" stroke="url(#howLine)" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 10" opacity="0.4">
+                        <animate attributeName="stroke-dashoffset" from="0" to="-72" dur="4.5s" repeatCount="indefinite"/>
+                    </path>
+
+                    <!-- 1. Request form icon -->
+                    <g transform="translate(40,25)">
+                        <rect x="-22" y="-18" width="44" height="54" rx="6" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+                        <rect x="-14" y="-8" width="20" height="3" fill="#e0e0e0"/>
+                        <rect x="-14" y="0" width="16" height="3" fill="#e0e0e0"/>
+                        <rect x="-14" y="8" width="18" height="3" fill="#e0e0e0"/>
+                        <path d="M0 20C-3 17 -6 14 -6 10C-6 6 -3 3 0 3C3 3 6 6 6 10C6 14 3 17 0 20Z" fill="#ff6b6b"/>
+                        <animate attributeName="opacity" values="1;1;0.35;0.35" keyTimes="0;0.25;0.5;1" dur="4.5s" repeatCount="indefinite"/>
+                    </g>
+
+                    <!-- 2. Blood drop traveling -->
+                    <g>
+                        <path id="howPath" d="M130 60 C180 40 210 40 260 60 C310 80 340 80 390 60" fill="none"/>
+                        <path d="M0 -10C0 -10 8 2 8 12C8 22 0 30 0 30C0 30 -8 22 -8 12C-8 2 0 -10 0 -10Z" fill="#ff6b6b">
+                            <animateMotion dur="4.5s" repeatCount="indefinite" rotate="auto">
+                                <mpath xlink:href="#howPath"/>
+                            </animateMotion>
+                        </path>
+                    </g>
+
+                    <!-- 3. Donor icon -->
+                    <g transform="translate(260,28)">
+                        <circle cx="0" cy="-5" r="10" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+                        <path d="M-16 20C-14 6 -6 0 0 0C6 0 14 6 16 20Z" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+                        <animate attributeName="opacity" values="0.35;1;1;0.35" keyTimes="0;0.25;0.5;1" dur="4.5s" repeatCount="indefinite"/>
+                    </g>
+
+                    <!-- 4. Blood bag icon -->
+                    <g transform="translate(390,26)">
+                        <rect x="-18" y="-10" width="36" height="46" rx="8" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+                        <rect x="-10" y="-16" width="20" height="8" rx="3" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+                        <rect x="-14" y="6" width="28" height="20" rx="6" fill="#ff6b6b" opacity="0.9"/>
+                        <animate attributeName="opacity" values="0.35;0.35;1;0.6" keyTimes="0;0.4;0.7;1" dur="4.5s" repeatCount="indefinite"/>
+                    </g>
+
+                    <!-- 5. Heart icon -->
+                    <g transform="translate(500,46)">
+                        <path d="M0 18C-8 12 -16 7 -16 -2C-16 -8 -11 -12 -6 -12C-2 -12 0 -10 0 -8C0 -10 2 -12 6 -12C11 -12 16 -8 16 -2C16 7 8 12 0 18Z" fill="#ff6b6b">
+                            <animate attributeName="opacity" values="0.3;0.3;1;0.3" keyTimes="0;0.55;0.8;1" dur="4.5s" repeatCount="indefinite"/>
+                            <animateTransform attributeName="transform" type="scale" values="1;1.1;1" dur="1.5s" repeatCount="indefinite" additive="sum"/>
+                        </path>
+                    </g>
+                </svg>
+            </div>
+            <div class="steps">
+                <div class="step step-2">
+                    <div class="step-number">1</div>
+                    <h3>Register</h3>
+                    <p>Create an account and complete your donor profile with your blood type and contact information.</p>
+                </div>
+                <div class="step step-2">
+                    <div class="step-number">2</div>
+                    <h3>Get Matched</h3>
+                    <p>Our system will match you with patients in need of your blood type in your area.</p>
+                </div>
+                <div class="step step-2">
+                    <div class="step-number">3</div>
+                    <h3>Donate</h3>
+                    <p>Visit the nearest donation center and help save lives with your precious donation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Success Modal -->
+    <div id="contactSuccessModal" class="modal-overlay" aria-hidden="true">
+        <div class="modal">
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Message Sent</h3>
+            <p>Thank you for contacting LifeLink. Our team will respond to you shortly.</p>
+            <button type="button" class="btn btn-primary modal-close">OK</button>
+        </div>
+    </div>
+
+    <!-- About LifeLink -->
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="section-title">About LifeLink</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <h3>Connecting Donors and Patients</h3>
+                    <p>
+                        LifeLink is a blood donation platform designed to make it easier for people in need
+                        of blood to connect with willing donors. Our goal is to reduce the time it takes to
+                        find a matching donor and bring hope to patients and their families.
+                    </p>
+                    <p>
+                        As a donor, you can create an account, share your blood type and location, and be
+                        notified when someone nearby needs your help. As a requester, you can submit a blood
+                        request with important details like blood type, urgency, hospital, and contact
+                        information.
+                    </p>
+                </div>
+                <div class="about-text">
+                    <h3>How the Website Will Work</h3>
+                    <p>
+                        Right now, the website focuses on a smooth front-end experience with clear forms for
+                        registration, login, and blood requests. In the next step, a backend (for example,
+                        a Node.js + Express API) will be connected so that all requests and registrations are
+                        securely saved in a database.
+                    </p>
+                    <p>
+                        Once the backend is connected, admins and donors will be able to see active requests,
+                        accept them, and mark them as fulfilled. This future integration will turn LifeLink
+                        into a complete real-world blood donation management system.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blood Donation Facts -->
+    <section class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Did You Know?</h2>
+            <div class="facts">
+                <div class="fact fact-2">
+                    <i class="fas fa-tint"></i>
+                    <h3>1 Donation</h3>
+                    <p>Can save up to 3 lives</p>
+                </div>
+                <div class="fact fact-2">
+                    <i class="fas fa-clock"></i>
+                    <h3>Every 2 Seconds</h3>
+                    <p>Someone needs blood</p>
+                </div>
+                <div class="fact fact-2">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>56 Days</h3>
+                    <p>Minimum wait between donations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="section cta">
+        <div class="container">
+            <h2>Ready to Make a Difference?</h2>
+            <p>Join thousands of donors who are saving lives every day.</p>
+            <a href="register.html" class="btn btn-primary">Register Now</a>
+            <h2>All Blood Requests</h2>
+            <div id="requestsList"></div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>We’re Here to Help</h3>
+                    <p>
+                        Have questions about donating blood, requesting blood, or using LifeLink?
+                        Send us a message and we’ll get back to you as soon as possible.
+                    </p>
+                    <ul class="contact-list">
+                        <li><i class="fas fa-envelope"></i> info@lifelink.com</li>
+                        <li><i class="fas fa-phone"></i> +919661359851</li>
+                        <li><i class="fas fa-map-marker-alt"></i> LifeLink Center, Noida,UP</li>
+                    </ul>
+                </div>
+                <div class="contact-form-card">
+                    <form id="contactForm" class="contact-form" novalidate>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contact-name">Full Name</label>
+                                <input type="text" id="contact-name" name="name" class="form-control" placeholder="Enter your name">
+                                <small class="field-error" aria-live="polite"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email">Email Address</label>
+                                <input type="email" id="contact-email" name="email" class="form-control" placeholder="Enter your email">
+                                <small class="field-error" aria-live="polite"></small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-subject">Subject</label>
+                            <input type="text" id="contact-subject" name="subject" class="form-control" placeholder="How can we help?">
+                            <small class="field-error" aria-live="polite"></small>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-message">Message</label>
+                            <textarea id="contact-message" name="message" class="form-control" rows="4" placeholder="Write your message here..."></textarea>
+                            <small class="field-error" aria-live="polite"></small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>LifeLink</h3>
+                    <p>Connecting blood donors with those in need to save lives in our community.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-envelope"></i> info@lifelink.com</p>
+                    <p><i class="fas fa-phone"></i> +919661359851</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 LifeLink. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js" type="module"></script>
+    <script src="js/animations.js"></script>
+    <script>
+        const token = localStorage.getItem("token");
+        fetch("http://localhost:5000/api/requests", {
+            headers: {
+                "Authorization": token
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            const container = document.getElementById("requestsList");
+            data.forEach(req => {
+                const div = document.createElement("div");
+                
+                div.innerHTML = `
+                <p><b>${req.patientName}</b> needs ${req.bloodType}</p>
+                <p>Hospital: ${req.hospital}</p>
+                <p>City: ${req.city}</p>
+                <hr>
+                `;
+                container.appendChild(div);
+            });
+        });
+    </script>
+</body>
+</html>

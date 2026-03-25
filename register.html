@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - LifeLink</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .auth-container {
+            display: flex;
+            min-height: 100vh;
+            background: var(--light-gray);
+        }
+
+        .auth-illustration {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-illustration::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M30,10L50,30L70,10L90,30L70,50L90,70L70,90L50,70L30,90L10,70L30,50L10,30L30,10Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.3;
+            animation: float 25s linear infinite;
+        }
+
+        .auth-illustration img {
+            max-width: 80%;
+            height: auto;
+            z-index: 1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .auth-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 3rem;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .auth-header p {
+            color: var(--gray-color);
+            margin-bottom: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-color);
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: #f9f9f9;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.1);
+            background-color: white;
+        }
+
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+        }
+
+        .input-icon input {
+            padding-left: 45px;
+        }
+
+        .password-strength {
+            height: 4px;
+            background: #f0f0f0;
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            background: #e0e0e0;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+
+        .password-requirements {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--gray-color);
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .requirement i {
+            margin-right: 0.5rem;
+            font-size: 0.7rem;
+            color: #ccc;
+        }
+
+        .requirement.valid i {
+            color: var(--success-color);
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--gray-color);
+            font-size: 0.95rem;
+        }
+
+        .auth-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .auth-footer a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: var(--danger-color);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            display: none;
+            line-height: 1.4;
+        }
+
+        .form-group.error .form-control {
+            border-color: var(--danger-color);
+            background-color: #fff9f9;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .form-group.success .form-control {
+            border-color: var(--success-color);
+            background-color: #f9fff9;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            margin: 1.5rem 0;
+            gap: 0.75rem;
+        }
+
+        .terms-checkbox input[type="checkbox"] {
+            margin-top: 0.25rem;
+            flex-shrink: 0;
+        }
+
+        .terms-text {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+            line-height: 1.5;
+        }
+
+        .terms-text a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .terms-text a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 1.25rem;
+            }
+            
+            .auth-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .auth-container {
+                flex-direction: column;
+            }
+            
+            .auth-illustration {
+                padding: 1.5rem;
+            }
+            
+            .auth-illustration img {
+                max-width: 200px;
+            }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-illustration">
+            <img src="images/blood-donation-illustration.svg" alt="Blood Donation">
+        </div>
+        <div class="auth-content">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h1>Create Account</h1>
+                    <p>Join LifeLink and help save lives today</p>
+                </div>
+                
+                <form id="registerForm" novalidate>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" class="form-control" placeholder="Enter your first name" required>
+                            <div class="error-message" id="firstName-error">First name is required</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" class="form-control" placeholder="Enter your last name" required>
+                            <div class="error-message" id="lastName-error">Last name is required</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                        <div class="error-message" id="email-error">Please enter a valid email address</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <div class="input-icon">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" required>
+                        </div>
+                        <div class="error-message" id="phone-error">Please enter a valid phone number</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bloodType">Blood Type</label>
+                        <select id="bloodType" class="form-control" required>
+                            <option value="" disabled selected>Select your blood type</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                        <div class="error-message" id="bloodType-error">Please select your blood type</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" class="form-control" placeholder="Create a password" required>
+                            <i class="fas fa-eye toggle-password" style="left: auto; right: 15px; cursor: pointer;"></i>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-bar" id="strengthBar"></div>
+                        </div>
+                        <div class="password-requirements">
+                            <div class="requirement" id="length-req">
+                                <i class="fas fa-circle"></i>
+                                <span>At least 8 characters</span>
+                            </div>
+                            <div class="requirement" id="number-req">
+                                <i class="fas fa-circle"></i>
+                                <span>At least 1 number</span>
+                            </div>
+                            <div class="requirement" id="special-req">
+                                <i class="fas fa-circle"></i>
+                                <span>At least 1 special character</span>
+                            </div>
+                        </div>
+                        <div class="error-message" id="password-error">Password must be at least 8 characters long and include a number and special character</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
+                            <i class="fas fa-eye toggle-password" style="left: auto; right: 15px; cursor: pointer;"></i>
+                        </div>
+                        <div class="error-message" id="confirmPassword-error">Passwords do not match</div>
+                    </div>
+                    
+                    <div class="terms-checkbox">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms" class="terms-text">
+                            I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a>. I confirm that I am at least 18 years old and meet all eligibility requirements to donate blood.
+                        </label>
+                    </div>
+                    <div class="error-message" id="terms-error">You must agree to the terms and conditions</div>
+                    
+                    <button type="submit" class="btn btn-primary btn-register">Create Account</button>
+                    
+                    <div class="auth-footer">
+                        Already have an account? <a href="login.html">Sign in</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.getElementById('registerForm');
+            const firstNameInput = document.getElementById('firstName');
+            const lastNameInput = document.getElementById('lastName');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const bloodTypeInput = document.getElementById('bloodType');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const termsCheckbox = document.getElementById('terms');
+            const togglePasswordIcons = document.querySelectorAll('.toggle-password');
+            const strengthBar = document.getElementById('strengthBar');
+            
+            // Password requirements elements
+            const lengthReq = document.getElementById('length-req');
+            const numberReq = document.getElementById('number-req');
+            const specialReq = document.getElementById('special-req');
+            
+            // Toggle password visibility
+            togglePasswordIcons.forEach(icon => {
+                icon.addEventListener('click', function() {
+                    const input = this.previousElementSibling;
+                    const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                    input.setAttribute('type', type);
+                    this.classList.toggle('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
+                });
+            });
+            
+            // Form validation functions
+            function validateName(name) {
+                return name.trim().length >= 2;
+            }
+            
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(String(email).toLowerCase());
+            }
+            
+            function validatePhone(phone) {
+                const re = /^[+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{6,}$/;
+                return re.test(phone);
+            }
+            
+            function validatePassword(password) {
+                // At least 8 characters, 1 number, 1 special character
+                const hasMinLength = password.length >= 8;
+                const hasNumber = /\d/.test(password);
+                const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+                
+                // Update password strength bar
+                updatePasswordStrength(password, hasMinLength, hasNumber, hasSpecialChar);
+                
+                return hasMinLength && hasNumber && hasSpecialChar;
+            }
+            
+            function updatePasswordStrength(password, hasMinLength, hasNumber, hasSpecialChar) {
+                let strength = 0;
+                
+                // Update requirement indicators
+                updateRequirement(lengthReq, hasMinLength);
+                updateRequirement(numberReq, hasNumber);
+                updateRequirement(specialReq, hasSpecialChar);
+                
+                // Calculate strength (0-100)
+                if (password.length > 0) strength += 10; // Base strength
+                if (password.length >= 8) strength += 30; // Length
+                if (password.length >= 12) strength += 10; // Extra length bonus
+                if (hasNumber) strength += 20; // Has number
+                if (hasSpecialChar) strength += 20; // Has special char
+                if (password.length >= 8 && hasNumber && hasSpecialChar) strength += 10; // All requirements met
+                
+                // Update strength bar
+                strengthBar.style.width = Math.min(strength, 100) + '%';
+                
+                // Update strength bar color
+                if (strength < 30) {
+                    strengthBar.style.background = '#ff3b30'; // Red
+                } else if (strength < 70) {
+                    strengthBar.style.background = '#ffcc00'; // Yellow
+                } else {
+                    strengthBar.style.background = '#34c759'; // Green
+                }
+            }
+            
+            function updateRequirement(element, isValid) {
+                const icon = element.querySelector('i');
+                if (isValid) {
+                    element.classList.add('valid');
+                    icon.className = 'fas fa-check-circle';
+                } else {
+                    element.classList.remove('valid');
+                    icon.className = 'fas fa-circle';
+                }
+            }
+            
+            function showError(input, message) {
+                const formGroup = input.closest('.form-group') || input.closest('.terms-checkbox')?.parentElement;
+                if (!formGroup) return;
+                
+                let errorElement = formGroup.querySelector('.error-message');
+                if (!errorElement) {
+                    errorElement = document.createElement('div');
+                    errorElement.className = 'error-message';
+                    formGroup.appendChild(errorElement);
+                }
+                
+                formGroup.classList.add('error');
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+            
+            function clearError(input) {
+                const formGroup = input.closest('.form-group') || input.closest('.terms-checkbox')?.parentElement;
+                if (!formGroup) return;
+                
+                formGroup.classList.remove('error');
+                const errorElement = formGroup.querySelector('.error-message');
+                if (errorElement) {
+                    errorElement.style.display = 'none';
+                }
+            }
+            
+            // Input event listeners for real-time validation
+            firstNameInput.addEventListener('input', function() {
+                if (this.value.trim() === '') {
+                    showError(this, 'First name is required');
+                } else if (!validateName(this.value)) {
+                    showError(this, 'Name must be at least 2 characters');
+                } else {
+                    clearError(this);
+                }
+            });
+            
+            lastNameInput.addEventListener('input', function() {
+                if (this.value.trim() === '') {
+                    showError(this, 'Last name is required');
+                } else if (!validateName(this.value)) {
+                    showError(this, 'Name must be at least 2 characters');
+                } else {
+                    clearError(this);
+                }
+            });
+            
+            emailInput.addEventListener('input', function() {
+                if (this.value.trim() === '') {
+                    showError(this, 'Email is required');
+                } else if (!validateEmail(this.value.trim())) {
+                    showError(this, 'Please enter a valid email address');
+                } else {
+                    clearError(this);
+                }
+            });
+            
+            phoneInput.addEventListener('input', function() {
+                if (this.value.trim() === '') {
+                    showError(this, 'Phone number is required');
+                } else if (!validatePhone(this.value.trim())) {
+                    showError(this, 'Please enter a valid phone number');
+                } else {
+                    clearError(this);
+                }
+            });
+            
+            bloodTypeInput.addEventListener('change', function() {
+                if (this.value === '') {
+                    showError(this, 'Please select your blood type');
+                } else {
+                    clearError(this);
+                }
+            });
+            
+            passwordInput.addEventListener('input', function() {
+                if (this.value.trim() === '') {
+                    showError(this, 'Password is required');
+                } else {
+                    validatePassword(this.value);
+                    clearError(this);
+                }
+            });
+            
+            confirmPasswordInput.addEventListener('input', function() {
+                if (this.value !== passwordInput.value) {
+                    showError(this, 'Passwords do not match');
+                } else {
+                    clearError(this);
+                }
+            });
+            
+            termsCheckbox.addEventListener('change', function() {
+                if (!this.checked) {
+                    showError(this, 'You must agree to the terms and conditions');
+                } else {
+                    clearError(this);
+                }
+            });
+            
+            // Form submission
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                let isValid = true;
+                
+                // Validate first name
+                if (firstNameInput.value.trim() === '') {
+                    showError(firstNameInput, 'First name is required');
+                    isValid = false;
+                } else if (!validateName(firstNameInput.value)) {
+                    showError(firstNameInput, 'Name must be at least 2 characters');
+                    isValid = false;
+                } else {
+                    clearError(firstNameInput);
+                }
+                
+                // Validate last name
+                if (lastNameInput.value.trim() === '') {
+                    showError(lastNameInput, 'Last name is required');
+                    isValid = false;
+                } else if (!validateName(lastNameInput.value)) {
+                    showError(lastNameInput, 'Name must be at least 2 characters');
+                    isValid = false;
+                } else {
+                    clearError(lastNameInput);
+                }
+                
+                // Validate email
+                if (emailInput.value.trim() === '') {
+                    showError(emailInput, 'Email is required');
+                    isValid = false;
+                } else if (!validateEmail(emailInput.value.trim())) {
+                    showError(emailInput, 'Please enter a valid email address');
+                    isValid = false;
+                } else {
+                    clearError(emailInput);
+                }
+                
+                // Validate phone
+                if (phoneInput.value.trim() === '') {
+                    showError(phoneInput, 'Phone number is required');
+                    isValid = false;
+                } else if (!validatePhone(phoneInput.value.trim())) {
+                    showError(phoneInput, 'Please enter a valid phone number');
+                    isValid = false;
+                } else {
+                    clearError(phoneInput);
+                }
+                
+                // Validate blood type
+                if (bloodTypeInput.value === '') {
+                    showError(bloodTypeInput, 'Please select your blood type');
+                    isValid = false;
+                } else {
+                    clearError(bloodTypeInput);
+                }
+                
+                // Validate password
+                if (passwordInput.value.trim() === '') {
+                    showError(passwordInput, 'Password is required');
+                    isValid = false;
+                } else if (!validatePassword(passwordInput.value)) {
+                    showError(passwordInput, 'Password must be at least 8 characters long and include a number and special character');
+                    isValid = false;
+                } else {
+                    clearError(passwordInput);
+                }
+                
+                // Validate confirm password
+                if (confirmPasswordInput.value !== passwordInput.value) {
+                    showError(confirmPasswordInput, 'Passwords do not match');
+                    isValid = false;
+                } else {
+                    clearError(confirmPasswordInput);
+                }
+                
+                // Validate terms
+                if (!termsCheckbox.checked) {
+                    showError(termsCheckbox, 'You must agree to the terms and conditions');
+                    isValid = false;
+                } else {
+                    clearError(termsCheckbox);
+                }
+                
+                // If form is valid, submit it
+                if (isValid) {
+                    // Here you would typically send the data to your server
+                    console.log('Form is valid. Submitting...');
+                    const formData = {
+                        firstName: firstNameInput.value.trim(),
+                        lastName: lastNameInput.value.trim(),
+                        email: emailInput.value.trim(),
+                        phone: phoneInput.value.trim(),
+                        bloodType: bloodTypeInput.value,
+                        password: passwordInput.value // In a real app, this should be hashed before sending
+                    };
+                    console.log('Form data:', formData);
+                    
+                    // Show success message and redirect
+                    alert('Registration successful! You can now log in.');
+                    // window.location.href = 'login.html'; // Uncomment to redirect after successful registration
+                }
+            });
+            
+            // Initialize password strength meter
+            updatePasswordStrength('', false, false, false);
+        });
+    </script>
+</body>
+</html>
